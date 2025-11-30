@@ -21,7 +21,7 @@ base.reset_angle(0)
 SPEED = 300
 
 # ★★★ [방향 조절] ★★★
-# 1이라고 썼는데 반대로 돌면 -1로 바꾸세요!
+# 1이라고 썼는데 반대로 돌면 -1로 바꾸기기
 DIR = 1 
 
 # [유선 서버 설정]
@@ -49,8 +49,7 @@ while True:
             dist = sensor.distance()
             conn.send(str(dist).encode('utf-8'))
 
-        # --- [집게 명령 (새로 추가)] ---
-        # 선이 꼬일까 봐 '시간'으로 제어합니다 (1초 동안만 힘주기)
+        # --- [집게 명령] ---
         elif msg == 'CLAW_GRAB': # 잡기
             claw.run_time(400, 1500, then=Stop.HOLD) 
             conn.send(b'DONE')
