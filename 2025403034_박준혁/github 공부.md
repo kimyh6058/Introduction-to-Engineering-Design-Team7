@@ -31,12 +31,17 @@ git push origin 학번_이름
 Git을 처음 사용하면서 겪은 문제들과 해결한 과정을 정리하였다.
 # 4-1. 사용자 정보 누락 오류
 문제 상황: git commit 명령을 입력했을 때 Please tell me who you are. 라는 에러가 발생하며 진행되지 않음
+
 원인 분석: Git은 버전 관리 도구이기 때문에 누가 코드를 수정했는지에 대한 기록이 필수적이다. 초기 설정 시 작성자 정보가 등록되지 않아서 발생했다.
+
 해결 명령어: git config --global user.name "내이름", git config --global user.email "내이메일"
 # 4-2. 원격 저장소 중복 연결 오류
 문제 상황: git remote add origin 주소 입력시 error: remote origin already exists 에러 발생.
+
 원인 분석: origin 이라는 이름은 원격 저장소 주소의 별칭이다. 이미 이 이름으로 연결된 주소가 있거나 이전에 잘못된 주소로 연결을 시도한 기록이 남아있어서 발생했다.
+
 해결 명령어: 기존의 잘못된 연결을 끊고, 올바른 주소로 다시 연결했다.
+
 기존 연결 삭제
 git remote remove origin
 
