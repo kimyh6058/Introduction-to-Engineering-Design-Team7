@@ -3,7 +3,7 @@ import socket
 from pybricks.hubs import EV3Brick
 from pybricks.ev3devices import Motor
 from pybricks.parameters import Port, Stop
-from pybricks.tools import wait
+from pybricks.tools import wait, StopWatch
 
 ev3 = EV3Brick()
 
@@ -16,7 +16,7 @@ lift_D = Motor(Port.D)
 TARGET_HOST = '169.254.187.149' # 아래 ev3브릭 IP
 TARGET_PORT = 9999
 
-print("Connecting...") # 연결중 확인
+print("유선 연결 대기 중...") # 연결중 확인
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 while True: # 연결 대기
     try:
@@ -24,7 +24,7 @@ while True: # 연결 대기
         break
     except:
         wait(1000)
-print("Connected!") # 연결 완료 확인
+print("연결됨!") # 연결 완료 확인
 ev3.speaker.beep() # 연결 완료 음성 알림
 
 LIFT_SPEED = 200 # 리프트 속도 설정
@@ -44,10 +44,20 @@ def run_lift(angle):
 def send_cmd(cmd):
     print("Send:", cmd)
     client.send(cmd.encode('utf-8'))
-    while True:
+    
+    watch = StopWatch()
+    watch.reset()
+    
+    while watch.time() < 3000:
         try:
-            if 'DONE' in client.recv(1024).decode('utf-8'): break
-        except: pass
+            client.settimeout(0.1) 
+            data = client.recv(1024).decode('utf-8')
+            if 'DONE' in data:
+                break 
+        except:
+            pass
+            
+    client.settimeout(None)
 
 # [함수] 센서 값 물어보기
 def get_remote_dist():
