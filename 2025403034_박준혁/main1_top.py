@@ -3,7 +3,7 @@ import socket
 from pybricks.hubs import EV3Brick
 from pybricks.ev3devices import Motor
 from pybricks.parameters import Port, Stop
-from pybricks.tools import wait
+from pybricks.tools import wait, StopWatch
 
 ev3 = EV3Brick()
 
@@ -44,10 +44,20 @@ def run_lift(angle):
 def send_cmd(cmd):
     print("Send:", cmd)
     client.send(cmd.encode('utf-8'))
-    while True:
+    
+    watch = StopWatch()
+    watch.reset()
+    
+    while watch.time() < 3000:
         try:
-            if 'DONE' in client.recv(1024).decode('utf-8'): break
-        except: pass
+            client.settimeout(0.1) 
+            data = client.recv(1024).decode('utf-8')
+            if 'DONE' in data:
+                break 
+        except:
+            pass
+            
+    client.settimeout(None)
 
 # [함수] 센서 값 물어보기
 def get_remote_dist():
