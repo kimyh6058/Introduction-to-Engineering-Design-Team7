@@ -16,7 +16,7 @@ lift_D = Motor(Port.D)
 TARGET_HOST = '169.254.187.149' # 아래 ev3브릭 IP
 TARGET_PORT = 9999
 
-print("Connecting...") # 연결중 확인
+print("유선 연결 대기 중...") # 연결중 확인
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 while True: # 연결 대기
     try:
@@ -24,7 +24,7 @@ while True: # 연결 대기
         break
     except:
         wait(1000)
-print("Connected!") # 연결 완료 확인
+print("연결됨!") # 연결 완료 확인
 ev3.speaker.beep() # 연결 완료 음성 알림
 
 LIFT_SPEED = 200 # 리프트 속도 설정
